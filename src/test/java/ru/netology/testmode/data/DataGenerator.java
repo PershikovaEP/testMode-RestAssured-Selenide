@@ -54,7 +54,7 @@ public class DataGenerator {
 
 
     public static String getRandomLogin() {
-        String login = faker.name().name();
+        String login = faker.name().firstName();
         return login;
     }
 
