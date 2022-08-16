@@ -1,0 +1,1 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/inuycjxcjfcr1otw?svg=true)](https://ci.appveyor.com/project/PershikovaEP/testmode-restassured-selenide)
