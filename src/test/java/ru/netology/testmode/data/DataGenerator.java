@@ -1,6 +1,8 @@
 package ru.netology.testmode.data;
 
 import com.github.javafaker.Faker;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
@@ -8,7 +10,9 @@ import io.restassured.specification.RequestSpecification;
 import lombok.Value;
 import lombok.val;
 
+import java.util.LinkedHashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
@@ -43,13 +47,21 @@ public class DataGenerator {
 //      отправить запрос на указанный в требованиях path, передав в body запроса объект user
 //      и не забудьте передать подготовленную спецификацию requestSpec.
 
+//        преобразовываем объект user в Json
+        Gson gson = new Gson();
+        Map<String, String> stringMap = new LinkedHashMap<>();
+        stringMap.put("login", user.getLogin());
+        stringMap.put("password", user.getPassword());
+        stringMap.put("status", user.getStatus());
+        String json = gson.toJson(stringMap);  //сериализация
+
         given() // "дано"
-                .spec(requestSpec) // указываем, какую спецификацию используем
-                .body(user) // передаём в теле объект, который будет преобразован в JSON
-                .when() // "когда"
-                .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
-                .then() // "тогда ожидаем"
-                .statusCode(200); // код 200 OK
+            .spec(requestSpec) // указываем, какую спецификацию используем
+            .body(json) // передаём в теле объект, который будет преобразован в JSON
+            .when() // "когда"
+            .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
+            .then() // "тогда ожидаем"
+            .statusCode(200); // код 200 OK
     }
 
 
