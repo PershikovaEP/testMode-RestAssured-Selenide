@@ -19,7 +19,7 @@ class AuthTest {
     @BeforeEach
     void setup() {
         open("http://localhost:9999");
-        Configuration.timeout=10000;
+        
     }
 
     @Test
@@ -45,7 +45,7 @@ class AuthTest {
         $("[data-test-id=password] .input__control").setValue(notRegisteredUser.getPassword());
         $(".button").click();
         $("[data-test-id=error-notification] .notification__content").shouldBe(Condition.visible)
-                .shouldHave(Condition.exactText("Неверно указан логин или пароль"));
+                .shouldHave(Condition.exactText("Ошибка! Неверно указан логин или пароль"));
 
     }
 
@@ -58,7 +58,7 @@ class AuthTest {
         $("[data-test-id=password] .input__control").setValue(blockedUser.getPassword());
         $(".button").click();
         $("[data-test-id=error-notification] .notification__content").shouldBe(Condition.visible)
-                .shouldHave(Condition.exactText("Пользователь заблокирован"));
+                .shouldHave(Condition.exactText("Ошибка! Пользователь заблокирован"));
     }
 
     @Test
@@ -72,7 +72,7 @@ class AuthTest {
         $("[data-test-id=password] .input__control").setValue(registeredUser.getPassword());
         $(".button").click();
         $("[data-test-id=error-notification] .notification__content").shouldBe(Condition.visible)
-                .shouldHave(Condition.exactText("Неверно указан логин или пароль"));
+                .shouldHave(Condition.exactText("Ошибка! Неверно указан логин или пароль"));
     }
 
     @Test
@@ -86,6 +86,6 @@ class AuthTest {
         $("[data-test-id=password] .input__control").setValue(wrongPassword);
         $(".button").click();
         $("[data-test-id=error-notification] .notification__content").shouldBe(Condition.visible)
-                .shouldHave(Condition.exactText("Неверно указан логин или пароль"));
+                .shouldHave(Condition.exactText("Ошибка! Неверно указан логин или пароль"));
     }
 }
