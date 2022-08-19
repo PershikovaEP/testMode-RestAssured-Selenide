@@ -17,7 +17,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 
 public class DataGenerator {
-    // спецификация нужна для того, чтобы переиспользовать настройки в разных запросах
+    // спецификация для переиспользования настроек в разных запросах
     private static final RequestSpecification requestSpec = new RequestSpecBuilder()
             .setBaseUri("http://localhost")
             .setPort(9999)
@@ -44,24 +44,16 @@ public class DataGenerator {
 //      При повторной передаче пользователя с таким же логином будет выполнена перезапись данных пользователя
 
     private static void sendRequest(RegistrationDto user) {
-//      отправить запрос на указанный в требованиях path, передав в body запроса объект user
-//      и не забудьте передать подготовленную спецификацию requestSpec.
 
-//        преобразовываем объект user в Json
         Gson gson = new Gson();
-        Map<String, String> stringMap = new LinkedHashMap<>();
-        stringMap.put("login", user.getLogin());
-        stringMap.put("password", user.getPassword());
-        stringMap.put("status", user.getStatus());
-        String json = gson.toJson(stringMap);  //сериализация
 
-        given() // "дано"
-            .spec(requestSpec) // указываем, какую спецификацию используем
-            .body(json) // передаём в теле объект, который будет преобразован в JSON
-            .when() // "когда"
-            .post("/api/system/users") // на какой путь, относительно BaseUri отправляем запрос
-            .then() // "тогда ожидаем"
-            .statusCode(200); // код 200 OK
+        given()
+            .spec(requestSpec)
+            .body(gson.toJson(user))
+            .when()
+            .post("/api/system/users")
+            .then()
+            .statusCode(200);
     }
 
 
@@ -80,14 +72,11 @@ public class DataGenerator {
         }
 
         public static RegistrationDto getUser(String status) {
-            // создали пользователя user используя методы getRandomLogin(), getRandomPassword() и параметр status
             RegistrationDto user = new RegistrationDto(getRandomLogin(), getRandomPassword(), status);
             return user;
         }
 
         public static RegistrationDto getRegisteredUser(String status) {
-            // объявить переменную registeredUser и присвоить ей значение возвращённое getUser(status).
-            // Послать запрос на регистрацию пользователя с помощью вызова sendRequest(registeredUser)
             RegistrationDto registeredUser = getUser(status);
             sendRequest(registeredUser);
             return registeredUser;

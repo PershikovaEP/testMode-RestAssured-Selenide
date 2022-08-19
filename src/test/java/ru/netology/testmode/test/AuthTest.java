@@ -26,8 +26,6 @@ class AuthTest {
     @DisplayName("Should successfully login with active registered user")
     void shouldSuccessfulLoginIfRegisteredActiveUser() {
         var registeredUser = getRegisteredUser("active");
-        //  попытка входа в личный кабинет с учётными данными зарегистрированного активного
-        //  пользователя, для заполнения полей формы registeredUser
         $("[data-test-id=login] .input__control").setValue(registeredUser.getLogin());
         $("[data-test-id=password] .input__control").setValue(registeredUser.getPassword());
         $(".button").click();
@@ -39,8 +37,6 @@ class AuthTest {
     @DisplayName("Should get error message if login with not registered user")
     void shouldGetErrorIfNotRegisteredUser() {
         var notRegisteredUser = getUser("active");
-        //  попытка входа в личный кабинет незарегистрированного пользователя,
-        //  для заполнения полей формы notRegisteredUser
         $("[data-test-id=login] .input__control").setValue(notRegisteredUser.getLogin());
         $("[data-test-id=password] .input__control").setValue(notRegisteredUser.getPassword());
         $(".button").click();
@@ -53,7 +49,6 @@ class AuthTest {
     @DisplayName("Should get error message if login with blocked registered user")
     void shouldGetErrorIfBlockedUser() {
         var blockedUser = getRegisteredUser("blocked");
-        //попытка входа заблокированного зарегитсрированного пользователя
         $("[data-test-id=login] .input__control").setValue(blockedUser.getLogin());
         $("[data-test-id=password] .input__control").setValue(blockedUser.getPassword());
         $(".button").click();
@@ -66,8 +61,6 @@ class AuthTest {
     void shouldGetErrorIfWrongLogin() {
         var registeredUser = getRegisteredUser("active");
         var wrongLogin = getRandomLogin();
-        //  попытка входа в личный кабинет с неверным логином, для заполнения поля формы "Логин"
-        //   переменная wrongLogin, "Пароль"  пользователя registeredUser
         $("[data-test-id=login] .input__control").setValue(wrongLogin);
         $("[data-test-id=password] .input__control").setValue(registeredUser.getPassword());
         $(".button").click();
@@ -80,8 +73,6 @@ class AuthTest {
     void shouldGetErrorIfWrongPassword() {
         var registeredUser = getRegisteredUser("active");
         var wrongPassword = getRandomPassword();
-        //  попытка входа в личный кабинет с неверным  паролем, для заполнения поля формы "Логин"
-        //   registeredUser,  "Пароль" переменная wrongPassword
         $("[data-test-id=login] .input__control").setValue(registeredUser.getLogin());
         $("[data-test-id=password] .input__control").setValue(wrongPassword);
         $(".button").click();
